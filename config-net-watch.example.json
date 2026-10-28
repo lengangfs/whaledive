@@ -1,0 +1,16 @@
+{
+  "_comment": "断网自动关机监视器的配置。scripts/net-offline-watch.ps1 读取本文件；命令行开关优先级更高。",
+  "enabled": true,
+  "offlineSec": 900,
+  "graceSec": 120,
+  "intervalSec": 30,
+  "minOnlineVotes": 2,
+  "_fields": {
+    "enabled": "false = 计划任务仍会启动脚本，但脚本立即退出（用于临时停用而不动任务）",
+    "offlineSec": "连续离线多少秒才武装关机。默认 900（15 分钟）：短抖动、路由器重拨、WiFi 漫游都会被这个阈值过滤掉。",
+    "graceSec": "武装后留给网络的宽限期（shutdown /s /t）。窗口内网络恢复会自动 shutdown /a 中止。",
+    "intervalSec": "探测间隔。30 秒足够，且不会给 DNS 服务器造成压力。",
+    "minOnlineVotes": "判定为「在线」所需的成功目标数（共 4 个：223.5.5.5 / 119.29.29.29 / 1.1.1.1 / 8.8.8.8）。实测本机 180.76.76.76 的 TCP 53 不通但 ICMP 通，所以必须多目标表决，单目标会误判。"
+  },
+  "probeTargets": ["223.5.5.5:53", "119.29.29.29:53", "1.1.1.1:53", "8.8.8.8:53"]
+}
